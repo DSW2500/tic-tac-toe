@@ -52,11 +52,6 @@ func main() {
 
 	}
 	fmt.Println(result)
-	// res := resultService.GetResult(*player)
-	// fmt.Println(res)
-	// fmt.Println(resultService.BoardService.PrintBoard())
-
-	//
 
 }
 
