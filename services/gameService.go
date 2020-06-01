@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"math"
 	"ticgame/components"
 )
 
@@ -21,7 +22,7 @@ func NewGameService(resultService *ResultService) *GameService {
 func (game *GameService) Play(moves int, players *components.Player) (int, bool) {
 	//Accepting position from the user
 	size := game.Result.BoardService.Board.Size
-	//actualSize := int(math.Sqrt(float64(size)))
+	actualSize := int(math.Sqrt(float64(size)))
 
 	position := game.getInput()
 	err := game.Result.BoardService.PutMarkInPosition(players, position)
@@ -39,7 +40,7 @@ func (game *GameService) Play(moves int, players *components.Player) (int, bool)
 		}
 	}
 	moves++
-	if moves >= 5 {
+	if moves >= (2*actualSize - 1) {
 		res := game.Result.GetResult(players)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
