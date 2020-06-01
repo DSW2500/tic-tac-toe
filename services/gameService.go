@@ -8,7 +8,8 @@ import (
 
 //GameService :
 type GameService struct {
-	Result *ResultService
+	Result  *ResultService
+	Players [2]*components.Player
 }
 
 //NewGameService : New instance of GameService
@@ -17,23 +18,49 @@ func NewGameService(resultService *ResultService) *GameService {
 		Result: resultService,
 	}
 }
+func (gameService *GameService) SequencePlay(size uint8) {
+	var result string
+	flag := false
+	moves := 0
+	for i := 0; i <= int(size+1); i++ {
+
+		if !flag {
+			moves, flag = gameService.Play(moves, gameService.Players[0])
+			gameService.Result.BoardService.PrintBoard()
+			if flag {
+				result = gameService.Result.GetResult(gameService.Players[0])
+				break
+			}
+			if i == int(size+1) {
+				break
+			}
+			moves, flag = gameService.Play(moves, gameService.Players[1])
+			gameService.Result.BoardService.PrintBoard()
+			if flag {
+				result = gameService.Result.GetResult(gameService.Players[1])
+				break
+			}
+
+		}
+
+	}
+	fmt.Println(result)
+}
 
 //Play :
-func (game *GameService) Play(moves int, players *components.Player) (int, bool) {
+func (game *GameService) Play(moves int, Players *components.Player) (int, bool) {
 	//Accepting position from the user
 	size := game.Result.BoardService.Board.Size
 	actualSize := int(math.Sqrt(float64(size)))
 
 	position := game.getInput()
-	err := game.Result.BoardService.PutMarkInPosition(players, position)
+	err := game.Result.BoardService.PutMarkInPosition(Players, position)
 	if err != nil {
 		fmt.Println(err)
-		game.Play(moves, players)
+		game.Play(moves, Players)
 	}
-	fmt.Println("\nThe board currently looks like this:")
-	fmt.Print(game.Result.BoardService.PrintBoard())
 	if moves == int(size)-1 {
-		res := game.Result.GetResult(players)
+		res := game.Result.GetResult(Players)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
 			return moves, true
@@ -41,7 +68,7 @@ func (game *GameService) Play(moves int, players *components.Player) (int, bool)
 	}
 	moves++
 	if moves >= (2*actualSize - 1) {
-		res := game.Result.GetResult(players)
+		res := game.Result.GetResult(Players)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
 			return moves, true
@@ -69,8 +96,8 @@ func (game *GameService) getInput() uint8 {
 }
 
 //DisplayUserData :
-func DisplayUserData(players *components.Player) {
+func DisplayUserData(Players *components.Player) {
 
-	fmt.Println("Player :", players.Name, " will play with the Mark: ", players.Mark)
+	fmt.Println("Player :", Players.Name, " will play with the Mark: ", Players.Mark)
 
 }

@@ -12,12 +12,11 @@ func main() {
 	//2. Player names and marks are taken
 	var player1 *components.Player
 	var player2 *components.Player
-	player1 = new(components.Player) // We will have two players.
+	player1 = new(components.Player) // We will have two Players.
 	player2 = new(components.Player)
 	player1 = getUserData(player1)
 	player2 = getUserData(player2)
-	services.DisplayUserData(player1)
-	services.DisplayUserData(player2)
+
 	//3. Size of the board is taken from user
 	size := getBoardSize()
 	//Total number of moves calculated using size
@@ -27,33 +26,14 @@ func main() {
 	boardService := services.NewBoardService(myBoard)
 	resultService := services.NewResultService(boardService)
 	gameService := services.NewGameService(resultService)
+	gameService.Players[0] = player1
+	gameService.Players[1] = player2
+	services.DisplayUserData(gameService.Players[0])
+	services.DisplayUserData(gameService.Players[1])
 	//Show initial board:
 	fmt.Printf("The board looks like this\n%s", gameService.Result.BoardService.PrintBoard())
 	//Match begins!
-	var result string
-	flag := false
-	moves := 0
-	for i := 0; i <= int(size+1); i++ {
-
-		if !flag {
-			moves, flag = gameService.Play(moves, player1)
-			if flag {
-				result = gameService.Result.GetResult(player1)
-				break
-			}
-			if i == int(size+1) {
-				break
-			}
-			moves, flag = gameService.Play(moves, player2)
-			if flag {
-				result = gameService.Result.GetResult(player2)
-				break
-			}
-		}
-
-	}
-	fmt.Println(result)
-
+	gameService.SequencePlay(size)
 }
 
 //getUserData :
