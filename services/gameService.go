@@ -20,6 +20,9 @@ func NewGameService(resultService *ResultService) *GameService {
 //Play :
 func (game *GameService) Play(moves int, players *components.Player) (int, bool) {
 	//Accepting position from the user
+	size := game.Result.BoardService.Board.Size
+	//actualSize := int(math.Sqrt(float64(size)))
+
 	position := game.getInput()
 	err := game.Result.BoardService.PutMarkInPosition(players, position)
 	if err != nil {
@@ -28,7 +31,7 @@ func (game *GameService) Play(moves int, players *components.Player) (int, bool)
 	}
 	fmt.Println("\nThe board currently looks like this:")
 	fmt.Print(game.Result.BoardService.PrintBoard())
-	if moves >= 5 {
+	if moves == int(size)-1 {
 		res := game.Result.GetResult(players)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
@@ -36,6 +39,14 @@ func (game *GameService) Play(moves int, players *components.Player) (int, bool)
 		}
 	}
 	moves++
+	if moves >= 5 {
+		res := game.Result.GetResult(players)
+		if res != "The game is still in Process" {
+			//fmt.Println(res)
+			return moves, true
+		}
+	}
+
 	return moves, false
 }
 

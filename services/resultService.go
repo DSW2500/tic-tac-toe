@@ -25,24 +25,18 @@ func (resultService *ResultService) GetResult(player *components.Player) string 
 	resultService.Result = "The game is still in Process"
 	res, winner := resultService.evaluateResult(player)
 	if res {
-		if winner == nil {
-			resultService.Result = "It was a draw!"
-		}
 		resultService.Result = fmt.Sprintf("We have a winner\nPlayer : %s, Mark: %s has won!\n", winner.Name, winner.Mark)
+	}
+	if resultService.BoardService.CheckBoardIsFull() {
+		resultService.Result = "It was a draw!"
 	}
 
 	return resultService.Result
 }
 
 func (resultService *ResultService) evaluateResult(player *components.Player) (bool, *components.Player) {
-	if checkRows(resultService, player) {
+	if checkRows(resultService, player) || checkColumns(resultService, player) || checkDiagonal(resultService, player) {
 		return true, player
-	} else if checkColumns(resultService, player) {
-		return true, player
-	} else if checkDiagonal(resultService, player) {
-		return true, player
-	} else if resultService.BoardService.CheckBoardIsFull() {
-		return true, nil
 	}
 	return false, nil
 }

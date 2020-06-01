@@ -21,7 +21,7 @@ func main() {
 	//3. Size of the board is taken from user
 	size := getBoardSize()
 	//Total number of moves calculated using size
-	totalSize := int(size * size)
+	//totalSize := int(size * size)
 	//4. Board is created
 	myBoard := components.CreateBoard(size)
 	boardService := services.NewBoardService(myBoard)
@@ -33,11 +33,15 @@ func main() {
 	var result string
 	flag := false
 	moves := 0
-	for i := 0; i < totalSize; i++ {
+	for i := 0; i <= int(size+1); i++ {
+
 		if !flag {
 			moves, flag = gameService.Play(moves, player1)
 			if flag {
 				result = gameService.Result.GetResult(player1)
+				break
+			}
+			if i == int(size+1) {
 				break
 			}
 			moves, flag = gameService.Play(moves, player2)
@@ -45,9 +49,6 @@ func main() {
 				result = gameService.Result.GetResult(player2)
 				break
 			}
-		}
-		if i == (totalSize - 1) {
-			break
 		}
 
 	}
