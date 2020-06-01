@@ -18,6 +18,8 @@ func NewGameService(resultService *ResultService) *GameService {
 		Result: resultService,
 	}
 }
+
+//SequencePlay :
 func (gameService *GameService) SequencePlay(size uint8) {
 	var result string
 	flag := false
@@ -25,7 +27,7 @@ func (gameService *GameService) SequencePlay(size uint8) {
 	for i := 0; i <= int(size+1); i++ {
 
 		if !flag {
-			moves, flag = gameService.Play(moves, gameService.Players[0])
+			moves, flag = gameService.Play(moves)
 			gameService.Result.BoardService.PrintBoard()
 			if flag {
 				result = gameService.Result.GetResult(gameService.Players[0])
@@ -34,7 +36,7 @@ func (gameService *GameService) SequencePlay(size uint8) {
 			if i == int(size+1) {
 				break
 			}
-			moves, flag = gameService.Play(moves, gameService.Players[1])
+			moves, flag = gameService.Play(moves)
 			gameService.Result.BoardService.PrintBoard()
 			if flag {
 				result = gameService.Result.GetResult(gameService.Players[1])
@@ -48,16 +50,23 @@ func (gameService *GameService) SequencePlay(size uint8) {
 }
 
 //Play :
-func (game *GameService) Play(moves int, Players *components.Player) (int, bool) {
+func (game *GameService) Play(moves int) (int, bool) {
+	var Players *components.Player
 	//Accepting position from the user
 	size := game.Result.BoardService.Board.Size
+	if moves%2 == 0 {
+		Players = game.Players[0]
+	} else {
+		Players = game.Players[1]
+	}
+
 	actualSize := int(math.Sqrt(float64(size)))
 
 	position := game.getInput()
 	err := game.Result.BoardService.PutMarkInPosition(Players, position)
 	if err != nil {
 		fmt.Println(err)
-		game.Play(moves, Players)
+		game.Play(moves)
 	}
 	if moves == int(size)-1 {
 		res := game.Result.GetResult(Players)
