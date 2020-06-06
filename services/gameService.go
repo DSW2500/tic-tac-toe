@@ -50,7 +50,7 @@ func (game *GameService) Play(position uint8) (bool, error) {
 		return true, errors.New("Already marked cell")
 	}
 	if moves == int(size)-1 {
-		res := game.Result.GetResult(Players)
+		res := game.Result.GetResult(Players, position)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
 			return true, nil
@@ -58,7 +58,7 @@ func (game *GameService) Play(position uint8) (bool, error) {
 	}
 	moves++
 	if moves >= (2*actualSize - 1) {
-		res := game.Result.GetResult(Players)
+		res := game.Result.GetResult(Players, position)
 		if res != "The game is still in Process" {
 			//fmt.Println(res)
 			return true, nil

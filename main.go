@@ -50,7 +50,7 @@ func main() {
 				fmt.Println(gameService.Result.BoardService.PrintBoard())
 			}
 			if flag {
-				result = gameService.Result.GetResult(gameService.Players[0])
+				result = gameService.Result.GetResult(gameService.Players[0], position)
 				break
 			}
 			if i == int(size+1) {
@@ -65,7 +65,7 @@ func main() {
 				fmt.Println(gameService.Result.BoardService.PrintBoard())
 			}
 			if flag {
-				result = gameService.Result.GetResult(gameService.Players[1])
+				result = gameService.Result.GetResult(gameService.Players[1], position)
 				break
 			}
 

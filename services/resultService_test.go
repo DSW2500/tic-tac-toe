@@ -25,7 +25,7 @@ func TestCheckRow(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	actual := resultService.GetResult(player)
+	actual := resultService.GetResult(player, 2)
 	if actual != expected {
 		fmt.Println(resultService.BoardService.PrintBoard())
 		fmt.Println(actual)
@@ -54,7 +54,7 @@ func TestCheckDiagonal(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	actual := resultService.GetResult(player)
+	actual := resultService.GetResult(player, 4)
 	if actual != expected {
 		fmt.Println(resultService.BoardService.PrintBoard())
 		fmt.Println(actual)
@@ -82,7 +82,7 @@ func TestCheckColumn(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	actual := resultService.GetResult(player)
+	actual := resultService.GetResult(player, 3)
 	if actual != expected {
 		fmt.Println(resultService.BoardService.PrintBoard())
 		fmt.Println(actual)
