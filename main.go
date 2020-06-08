@@ -18,6 +18,10 @@ func main() {
 	player2 = new(components.Player)
 	player1 = getUserData(player1)
 	player2 = getUserData(player2)
+	if player1.Mark == player2.Mark {
+		fmt.Println("The first player has already chosen this mark, please re-enter your details")
+		player2 = getUserData(player2)
+	}
 	//3. Size of the board is taken from user
 	size := getBoardSize()
 	//Total number of moves calculated using size
@@ -80,7 +84,7 @@ func main() {
 func getInput() uint8 {
 	var position int
 	fmt.Println("Please enter the index")
-	_, err := fmt.Scanf("%d", &position)
+	_, err := fmt.Scanln(&position)
 	if err != nil || position < 0 || position > 8 {
 		fmt.Printf("Wrong index/not an integer between 0 and specified size\n")
 		getInput()
@@ -97,13 +101,13 @@ func displayUserData(Players *components.Player) {
 func getUserData(player *components.Player) *components.Player {
 
 	fmt.Println("User, please enter your name ")
-	_, err := fmt.Scanf("%s", &player.Name)
+	_, err := fmt.Scanln(&player.Name)
 	if err != nil {
 		fmt.Println("Not a string! Enter again!")
 		getUserData(player)
 	}
 	fmt.Println("User , please enter your mark! MUST BE 1 CHARACTER ONLY!!")
-	_, err = fmt.Scanf("%s", &player.Mark)
+	_, err = fmt.Scanln(&player.Mark)
 	if err != nil {
 		fmt.Println("Not a character, type again again!")
 		getUserData(player)
@@ -118,7 +122,7 @@ func getUserData(player *components.Player) *components.Player {
 func getBoardSize() uint8 {
 	var size int
 	fmt.Println("Please enter your board size! You can play with 3X3 or 4X4 for a quick game! Enter a single number")
-	_, err := fmt.Scanf("%d", &size)
+	_, err := fmt.Scanln(&size)
 	if err != nil {
 		fmt.Println("Not an integer, try again!")
 		getBoardSize()
