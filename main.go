@@ -17,11 +17,9 @@ func main() {
 	player1 = new(components.Player) // We will have two Players.
 	player2 = new(components.Player)
 	player1 = getUserData(player1)
+	player1.Mark = components.XMark
 	player2 = getUserData(player2)
-	if player1.Mark == player2.Mark {
-		fmt.Println("The first player has already chosen this mark, please re-enter your details")
-		player2 = getUserData(player2)
-	}
+	player2.Mark = components.OMark
 	//3. Size of the board is taken from user
 	size := getBoardSize()
 	//Total number of moves calculated using size
@@ -104,15 +102,6 @@ func getUserData(player *components.Player) *components.Player {
 	_, err := fmt.Scanln(&player.Name)
 	if err != nil {
 		fmt.Println("Not a string! Enter again!")
-		getUserData(player)
-	}
-	fmt.Println("User , please enter your mark! MUST BE 1 CHARACTER ONLY!!")
-	_, err = fmt.Scanln(&player.Mark)
-	if err != nil {
-		fmt.Println("Not a character, type again again!")
-		getUserData(player)
-	} else if len(player.Mark) > 1 {
-		fmt.Println("Character length greater than 1! Enter again!!")
 		getUserData(player)
 	}
 	return player

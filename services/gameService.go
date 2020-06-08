@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"ticgame/components"
 )
@@ -46,7 +45,6 @@ func (game *GameService) Play(position uint8) (bool, error) {
 	actualSize := int(math.Sqrt(float64(size)))
 	err := game.Result.BoardService.PutMarkInPosition(Players, position)
 	if err != nil {
-		fmt.Println(err)
 		return true, errors.New("Already marked cell")
 	}
 	if moves == int(size)-1 {
