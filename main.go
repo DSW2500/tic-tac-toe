@@ -16,8 +16,10 @@ func main() {
 	var player2 *components.Player
 	player1 = new(components.Player) // We will have two Players.
 	player2 = new(components.Player)
+	fmt.Println("User 1, please enter your name ")
 	player1 = getUserData(player1)
 	player1.Mark = components.XMark
+	fmt.Println("User 2, please enter your name ")
 	player2 = getUserData(player2)
 	player2.Mark = components.OMark
 	//3. Size of the board is taken from user
@@ -98,7 +100,6 @@ func displayUserData(Players *components.Player) {
 //getUserData :
 func getUserData(player *components.Player) *components.Player {
 
-	fmt.Println("User, please enter your name ")
 	_, err := fmt.Scanln(&player.Name)
 	if err != nil {
 		fmt.Println("Not a string! Enter again!")
